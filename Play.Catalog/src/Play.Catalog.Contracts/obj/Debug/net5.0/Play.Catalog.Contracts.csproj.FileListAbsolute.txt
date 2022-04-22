@@ -1,0 +1,12 @@
+/home/vitor/projects/Play.Catalog/src/Play.Catalog.Contracts/bin/Debug/net5.0/Play.Catalog.Contracts.deps.json
+/home/vitor/projects/Play.Catalog/src/Play.Catalog.Contracts/bin/Debug/net5.0/Play.Catalog.Contracts.dll
+/home/vitor/projects/Play.Catalog/src/Play.Catalog.Contracts/bin/Debug/net5.0/Play.Catalog.Contracts.pdb
+/home/vitor/projects/Play.Catalog/src/Play.Catalog.Contracts/obj/Debug/net5.0/Play.Catalog.Contracts.csproj.AssemblyReference.cache
+/home/vitor/projects/Play.Catalog/src/Play.Catalog.Contracts/obj/Debug/net5.0/Play.Catalog.Contracts.GeneratedMSBuildEditorConfig.editorconfig
+/home/vitor/projects/Play.Catalog/src/Play.Catalog.Contracts/obj/Debug/net5.0/Play.Catalog.Contracts.AssemblyInfoInputs.cache
+/home/vitor/projects/Play.Catalog/src/Play.Catalog.Contracts/obj/Debug/net5.0/Play.Catalog.Contracts.AssemblyInfo.cs
+/home/vitor/projects/Play.Catalog/src/Play.Catalog.Contracts/obj/Debug/net5.0/Play.Catalog.Contracts.csproj.CoreCompileInputs.cache
+/home/vitor/projects/Play.Catalog/src/Play.Catalog.Contracts/obj/Debug/net5.0/Play.Catalog.Contracts.dll
+/home/vitor/projects/Play.Catalog/src/Play.Catalog.Contracts/obj/Debug/net5.0/refint/Play.Catalog.Contracts.dll
+/home/vitor/projects/Play.Catalog/src/Play.Catalog.Contracts/obj/Debug/net5.0/Play.Catalog.Contracts.pdb
+/home/vitor/projects/Play.Catalog/src/Play.Catalog.Contracts/obj/Debug/net5.0/ref/Play.Catalog.Contracts.dll
