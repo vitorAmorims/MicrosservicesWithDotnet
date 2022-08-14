@@ -27,61 +27,58 @@ namespace Play.Catalog.Service.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<ItemDto>>> GetAsync()
         {
-            var items = await _mediator.Send(new GetAsyncRequest());
-            return Ok(items);
+            return Ok(await _mediator.Send(new GetAsyncRequest()));
         }
 
         // GET /items/{id}
         [HttpGet("{id}")]
-        public async Task<ActionResult<ItemDto>> GetByIdAsync(Guid id)
+        public async Task<ActionResult<Item>> GetByIdAsync(Guid id)
         {
-            return await _mediator.Send(new GetAsyncByIdRequest{ id = id});
+            return await _mediator.Send(new GetAsyncByIdRequest { id = id });
         }
 
         // POST /items
         [HttpPost]
         public async Task<ActionResult> PostAsync(CreateItemDto createItemDto)
         {
-            var result = await _mediator.Send(new PostAsyncRequest{ createItemDto = createItemDto });
-            return CreatedAtAction(nameof(GetByIdAsync), new { id = result.Id}, result);
+            var result = await _mediator.Send(new PostAsyncRequest { createItemDto = createItemDto });
+            return CreatedAtAction(nameof(GetByIdAsync), new { id = result.Id }, result);
         }
 
         // PUT /items/{id}
-        // [HttpPut("{id}")]
-        // public async Task<IActionResult> PutAsync(Guid id, UpdateItemDto updateItemDto)
-        // {
-        //     var existingItem = await _itemsRepository.GetAsync(id);
-
-        //     if (existingItem == null)
-        //     {
-        //         return NotFound();
-        //     }
-
-        //     existingItem.Name = updateItemDto.Name;
-        //     existingItem.Description = updateItemDto.Description;
-        //     existingItem.Price = updateItemDto.Price;
-
-        //     await _itemsRepository.UpdateAsync(existingItem);
-        //     await publishEndpoint.Publish(new CatalogItemUpdated(existingItem.Id, existingItem.Name, existingItem.Description));
-
-        //     return NoContent();
-        // }
+        [HttpPut("{id}")]
+        public async Task<IActionResult> PutAsync(Guid id, UpdateItemDto updateItemDto)
+        {
+            var existingItem = await _mediator.Send(new GetAsyncByIdRequest { id = id });
+            if (existingItem.GetType() == typeof(Item))
+            {
+                await _mediator.Send(new PutAsyncRequest { updateItemDto = updateItemDto, existingItem = existingItem });
+                return NoContent();
+            }
+            else if (existingItem == null)
+            {
+                return NotFound();
+            }
+            else
+                return BadRequest();
+        }
 
         // DELETE /items/{id}
-        // [HttpDelete("{id}")]
-        // public async Task<IActionResult> DeleteAsync(Guid id)
-        // {
-        //     var item = await _itemsRepository.GetAsync(id);
-
-        //     if (item == null)
-        //     {
-        //         return NotFound();
-        //     }
-
-        //     await _itemsRepository.RemoveAsync(item.Id);
-        //     await publishEndpoint.Publish(new CatalogItemDeleted(id));
-
-        //     return NoContent();
-        // }
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteAsync(Guid id)
+        {
+            var existingItem = await _mediator.Send(new GetAsyncByIdRequest { id = id });
+            if (existingItem.GetType() == typeof(Item) || existingItem != null)
+            {
+                _mediator.Send(new DeleteAsyncRequest { existingItem = existingItem });
+                return NoContent();
+            }
+            else if (existingItem == null)
+            {
+                return NotFound();
+            }
+            else
+                return BadRequest();
+        }
     }
 }
