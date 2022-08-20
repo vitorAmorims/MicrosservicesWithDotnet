@@ -9,6 +9,7 @@ using Play.Inventory.Entities;
 using Play.Inventory.Exception;
 using Play.Inventory.Service.Clients;
 using Play.Inventory.Service.Entities;
+using Play.Inventory.Service.Request;
 
 namespace Play.Inventory.Service.Controllers
 {
@@ -62,7 +63,7 @@ namespace Play.Inventory.Service.Controllers
             if (userId == Guid.Empty) return BadRequest();
             try
             {
-                var inventoryItemDtos = await _mediator.Send(new GetAsyncRequest());
+                var inventoryItemDtos = await _mediator.Send(new GetAsyncRequest{ id = userId });
                 return Ok(inventoryItemDtos);    
             }
             catch (DefaultException ex)
@@ -73,32 +74,32 @@ namespace Play.Inventory.Service.Controllers
             
         }
 
-        [HttpPost]
-        public async Task<ActionResult> PostAsync(GrantItemsDto grantItemsDto)
-        {
-            var inventoryItem = await inventoryItemsRepository.GetAsync(
-                item => item.UserId == grantItemsDto.UserId && item.CatalogItemId == grantItemsDto.CatalogItemId);
+        // [HttpPost]
+        // public async Task<ActionResult> PostAsync(GrantItemsDto grantItemsDto)
+        // {
+        //     var inventoryItem = await inventoryItemsRepository.GetAsync(
+        //         item => item.UserId == grantItemsDto.UserId && item.CatalogItemId == grantItemsDto.CatalogItemId);
 
 
-            if (inventoryItem == null)
-            {
-                inventoryItem = new InventoryItem
-                {
-                    CatalogItemId = grantItemsDto.CatalogItemId,
-                    UserId = grantItemsDto.UserId,
-                    Quantity = grantItemsDto.Quantity,
-                    AcquiredDate = DateTimeOffset.UtcNow
-                };
+        //     if (inventoryItem == null)
+        //     {
+        //         inventoryItem = new InventoryItem
+        //         {
+        //             CatalogItemId = grantItemsDto.CatalogItemId,
+        //             UserId = grantItemsDto.UserId,
+        //             Quantity = grantItemsDto.Quantity,
+        //             AcquiredDate = DateTimeOffset.UtcNow
+        //         };
 
-                await inventoryItemsRepository.CreateAsync(inventoryItem);
-            }
-            else
-            {
-                inventoryItem.Quantity += grantItemsDto.Quantity;
-                await inventoryItemsRepository.UpdateAsync(inventoryItem);
-            }
+        //         await inventoryItemsRepository.CreateAsync(inventoryItem);
+        //     }
+        //     else
+        //     {
+        //         inventoryItem.Quantity += grantItemsDto.Quantity;
+        //         await inventoryItemsRepository.UpdateAsync(inventoryItem);
+        //     }
 
-            return Ok();
-        }
+        //     return Ok();
+        // }
     }
 }
