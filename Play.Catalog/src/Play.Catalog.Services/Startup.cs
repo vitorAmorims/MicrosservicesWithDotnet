@@ -8,6 +8,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using Play.Catalog.Services.Cache;
 using Play.Catalog.Services.Entities;
 using Play.Catalog.Services.Services;
 using Play.Common;
@@ -41,7 +42,9 @@ namespace Play.Catalog.Services
 
             services.AddMediatR(Assembly.GetExecutingAssembly());
             services.AddScoped<IValidationService, ValidationService>();
-            
+            services.AddMemoryCache();
+            services.AddSingleton<IItemCache, ItemCache>();
+
             services.AddControllers(options =>
             {
                 options.SuppressAsyncSuffixInActionNames = false;

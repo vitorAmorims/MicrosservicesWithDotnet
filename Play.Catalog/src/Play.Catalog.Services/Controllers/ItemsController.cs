@@ -70,7 +70,7 @@ namespace Play.Catalog.Service.Controllers
             var existingItem = await _mediator.Send(new GetAsyncByIdRequest { id = id });
             if (existingItem.GetType() == typeof(Item) || existingItem != null)
             {
-                _mediator.Send(new DeleteAsyncRequest { existingItem = existingItem });
+                await _mediator.Send(new DeleteAsyncRequest { existingItem = existingItem });
                 return NoContent();
             }
             else if (existingItem == null)

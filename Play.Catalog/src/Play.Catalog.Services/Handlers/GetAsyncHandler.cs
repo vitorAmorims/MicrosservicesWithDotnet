@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using MassTransit;
 using MediatR;
 using Play.Catalog.Service;
+using Play.Catalog.Services.Cache;
 using Play.Catalog.Services.Dtos;
 using Play.Catalog.Services.Entities;
 using Play.Catalog.Services.Request;
@@ -13,24 +14,26 @@ using Play.Common;
 
 namespace Play.Catalog.Services.Handlers
 {
-    public class GetAsyncHandler: IRequestHandler<GetAsyncRequest, IEnumerable<ItemDto>>
+    public class GetAsyncHandler : IRequestHandler<GetAsyncRequest, IEnumerable<ItemDto>>
     {
         private readonly IRepository<Item> _itemsRepository;
         private readonly IPublishEndpoint publishEndpoint;
         private readonly IValidationService _validationService;
+        private readonly IItemCache itemcache;
 
-        public GetAsyncHandler(IRepository<Item> itemsRepository, IPublishEndpoint publishEndpoint, IValidationService validationService)
+        public GetAsyncHandler(IRepository<Item> itemsRepository, IPublishEndpoint publishEndpoint, IValidationService validationService,
+        IItemCache itemcache)
         {
             _itemsRepository = itemsRepository;
             this.publishEndpoint = publishEndpoint;
             _validationService = validationService;
+            this.itemcache = itemcache;
         }
 
         public async Task<IEnumerable<ItemDto>> Handle(GetAsyncRequest request, CancellationToken cancellationToken)
         {
             _validationService.Validate(request);
-            return (await _itemsRepository.GetAllAsync())
-                         .Select(item => item.AsDto());
+            return await itemcache.GetCachedItems();
         }
     }
 }
