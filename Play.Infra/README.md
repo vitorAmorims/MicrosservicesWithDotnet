@@ -13,6 +13,30 @@ Run this at the root of this repository:
 ```
 docker-compose up -d
 ```
+## Stop the application containers using docker-compose stop:
+
+```
+docker-compose stop
+```
+
+## Remove the application containers using docker-compose rm -f:
+
+```
+docker-compose rm -f
+```
+
+## Status of Docker Containers
+
+```
+docker-compose ps
+```
+
+## To start redis
+
+```
+docker run --name redis-server -it redis 
+```
+
 
 ## Learn More
 
